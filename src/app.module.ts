@@ -1,11 +1,16 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { ProfileModule } from './profile/profile.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'db',  
@@ -18,7 +23,10 @@ import { UserModule } from './user/user.module';
       logging: true,
       connectTimeout: 60000,
     }),
-    UserModule,
+    AuthModule,
+    ProfileModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
