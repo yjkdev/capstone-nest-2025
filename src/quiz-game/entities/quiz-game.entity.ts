@@ -17,7 +17,7 @@ export class QuizGame {
   @ManyToOne(() => Grammar, { nullable: true, onDelete: 'SET NULL' })
   grammar: Grammar;
 
-  @Column({ type: 'varchar', length: 10 })
+  @Column({ type: 'varchar', length: 30 })
   room_name: string;
 
   @Column({ type: 'int', default: 0 })

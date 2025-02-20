@@ -9,7 +9,7 @@ export class User {
   @PrimaryGeneratedColumn()
   user_id: number;
 
-  @Column({ type: 'varchar', length: 10 })
+  @Column({ type: 'varchar', length: 30 })
   name: string;
 
   @Column({ type: 'varchar', length: 100, unique: true })
@@ -18,7 +18,7 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   password: string;
 
-  @Column({ type: 'varchar', length: 20, nullable: true })
+  @Column({ type: 'varchar', length: 30, nullable: true })
   phone: string;
 
   @Column({ type: 'text', nullable: true })

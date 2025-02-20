@@ -6,13 +6,13 @@ export class Word {
   @PrimaryGeneratedColumn()
   word_id: number;
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: 'varchar', length: 50 })
   word: string;
 
   @Column({ type: 'varchar', length: 50 })
   word_meaning: string;
 
-  @Column({ type: 'varchar', length: 20, nullable: true })
+  @Column({ type: 'varchar', length: 50, nullable: true })
   word_furigana: string;
 
   @Column({ type: 'varchar', length: 10, nullable: true })

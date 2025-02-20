@@ -10,7 +10,7 @@ export class GrammarBook {
   @ManyToOne(() => User, (user) => user.grammar_books, { onDelete: 'CASCADE' })
   user: User;
 
-  @Column({ type: 'varchar', length: 10 })
+  @Column({ type: 'varchar', length: 30 })
   grammarbook_title: string;
 
   @OneToMany(() => GrammarMiddle, (grammarMiddle) => grammarMiddle.grammarbook, { cascade: true, onDelete: 'CASCADE' })

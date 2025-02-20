@@ -33,7 +33,7 @@ export class AuthService {
       throw new BadRequestException('Invalid credentials');
     }
   
-    const payload = { email: user.email, sub: user.id };
+    const payload = { email: user.email, sub: user.user_id };
     return this.jwtService.sign(payload);
   }
 }

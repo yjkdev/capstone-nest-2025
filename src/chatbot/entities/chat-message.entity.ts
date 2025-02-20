@@ -10,7 +10,10 @@ export class ChatMessage {
   log: ChatLog;
 
   @Column({ type: 'text' })
-  content: string;
+  content_user: string;
+
+  @Column({ type: 'text' })
+  content_ai: string;
 
   @Column({ type: 'int' })
   time: number;

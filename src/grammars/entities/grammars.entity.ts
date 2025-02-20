@@ -6,13 +6,13 @@ export class Grammar {
   @PrimaryGeneratedColumn()
   grammar_id: number;
 
-  @Column({ type: 'varchar', length: 40 })
+  @Column({ type: 'varchar', length: 50 })
   grammar: string;
 
   @Column({ type: 'varchar', length: 50 })
   grammar_meaning: string;
 
-  @Column({ type: 'varchar', length: 40, nullable: true })
+  @Column({ type: 'varchar', length: 50, nullable: true })
   grammar_furigana: string;
 
   @Column({ type: 'varchar', length: 10, nullable: true })

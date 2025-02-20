@@ -10,7 +10,7 @@ export class WordBook {
   @ManyToOne(() => User, (user) => user.word_books, { onDelete: 'CASCADE' })
   user: User;
 
-  @Column({ type: 'varchar', length: 10 })
+  @Column({ type: 'varchar', length: 30 })
   wordbook_title: string;
 
   @OneToMany(() => WordMiddle, (wordMiddle) => wordMiddle.wordbook, { cascade: true, onDelete: 'CASCADE' })
