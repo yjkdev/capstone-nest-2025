@@ -1,5 +1,5 @@
 import { Controller, Get, UseGuards, Request, Post } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'; // JwtAuthGuard import
+import { JwtAuthGuard } from '../guards/jwt-auth.guard'; // JwtAuthGuard import
 
 @Controller('profile')
 export class ProfileController {

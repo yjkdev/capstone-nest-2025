@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { User } from '../../auth/entity/user.entity';
+import { User } from '../../user/entity/user.entity';
 import { Word } from '../../words/entities/words.entity';
 import { Grammar } from '../../grammars/entities/grammars.entity';
 
