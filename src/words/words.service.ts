@@ -23,14 +23,14 @@ export class WordsService {
     return this.wordsRepository.find();
   }
 
-  // ❌ 특정 단어 검색 로직
+  /* // ❌ 특정 단어 검색 로직
   async searchWord(query:string): pormise<Word[]> {
     return this.wordsRepository.find({
       where: [
         { word: Like(`%${query}%`) }, // 단어 검색
       ],
     });
-  }
+  } */
 
   // 🔥 단어장 관련 비즈니스 로직
   // ✅ 단어장 생성 로직
