@@ -7,4 +7,8 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   password: string;
+
+  social_chek: number;
+
+  name: string;
 }

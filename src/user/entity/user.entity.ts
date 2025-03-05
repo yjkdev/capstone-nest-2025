@@ -15,20 +15,14 @@ export class User {
   @Column({ type: 'varchar', length: 100, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   password: string;
-
-  @Column({ type: 'varchar', length: 30, nullable: true })
-  phone: string;
 
   @Column({ type: 'text', nullable: true })
   profile_image: string;
 
-  @Column({ type: 'boolean', default: false })
-  email_verified: boolean;
-
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  google_id: string;
+  @Column({ type: 'int', nullable: true })
+  social_chek: number;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

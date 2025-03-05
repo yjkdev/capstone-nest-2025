@@ -14,7 +14,7 @@ export class AuthService {
   ) {}
 
   async signUp(createUserDto: CreateUserDto): Promise<void> {
-    const { email, password } = createUserDto;
+    const { email, password, social_chek,name } = createUserDto;
 
     const existingUser = await this.userRepository.findOneBy({ email });
     if (existingUser) {
@@ -22,7 +22,7 @@ export class AuthService {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = this.userRepository.create({ email, password: hashedPassword });
+    const user = this.userRepository.create({ email, password: hashedPassword, social_chek,name });
     await this.userRepository.save(user);
   }
 
@@ -35,5 +35,26 @@ export class AuthService {
   
     const payload = { email: user.email, sub: user.user_id };
     return this.jwtService.sign(payload);
+  }
+
+  async saveGoogleUser(userInfo: any): Promise<User> {
+    const { email, name, picture } = userInfo
+    
+    let user = await this.userRepository.findOne({ where: { email }});
+
+    if (!user) {
+      user = this.userRepository.create({
+        email,
+        name,
+        profile_image: picture,
+
+      });
+    } else {
+      user.email = email;
+      user.name = name;
+      user.profile_image = picture;
+    }
+
+    return await this.userRepository.save(user)
   }
 }
