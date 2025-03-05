@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Post, Body, Param, Request } from '@nestjs/common';
+import { Controller, Delete, Get, Post, Body, Param, Request, BadRequestException  } from '@nestjs/common';
 import { WordsService } from './words.service';
 import { Word } from './entities/words.entity';
 import { WordBook } from './entities/word-books.entity';
@@ -19,8 +19,12 @@ export class WordsController {
   // 🔥 단어장 관련
   // ✅ 단어장 생성 API
   @Post('/books')
-  async createWordBook(@Request() req, @Body() body: { wordbook_title: string }): Promise<WordBook> {
-    return this.wordsService.createWordBook(req.user, body.wordbook_title);
+  async createWordBook(@Request() req, @Body() body: { wordbook_title: string }) {
+    try {
+      return await this.wordsService.createWordBook(req.user, body.wordbook_title);
+    } catch (error) {
+      throw new BadRequestException(error.message); // 🚨 400 에러 반환
+    }
   }
 
   // ✅ 단어장 조회 API

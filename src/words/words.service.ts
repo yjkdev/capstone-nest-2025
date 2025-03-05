@@ -34,11 +34,21 @@ export class WordsService {
 
   // 🔥 단어장 관련 비즈니스 로직
   // ✅ 단어장 생성 로직
-  async createWordBook(user:User, wordbook_title:string): Promise<WordBook> {
-    // 단어장 객체 생성
-    const wordBook = this.wordBookRepository.create({user, wordbook_title});
-    // DB에 저장 후 반환
-    return await this.wordBookRepository.save(wordBook)
+  async createWordBook(user: User, wordbook_title: string): Promise<WordBook> {
+    // ✅ 1. 같은 이름의 단어장이 있는지 검사
+    const existingBook = await this.wordBookRepository.findOne({
+      where: { user: { user_id: user.user_id }, wordbook_title },
+    });
+  
+    if (existingBook) {
+      throw new Error('이미 같은 이름의 단어장이 존재합니다.');
+    }
+  
+    // ✅ 2. 새 단어장 생성
+    const wordBook = this.wordBookRepository.create({ user, wordbook_title });
+  
+    // ✅ 3. 저장 후 반환
+    return await this.wordBookRepository.save(wordBook);
   }
 
   // ✅ 단어장 목록 조회 로직
