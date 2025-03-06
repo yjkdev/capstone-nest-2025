@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { CreateChatbotDto } from './dto/create-chatbot.dto';
 import { UpdateChatbotDto } from './dto/update-chatbot.dto';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Injectable()
 export class ChatbotService {
-  create(createChatbotDto: CreateChatbotDto) {
-    return 'This action adds a new chatbot';
-  }
+  private readonly API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+  private readonly API_KEY = process.env.GEMININI_API_KEY;
 
-  findAll() {
-    return `This action returns all chatbot`;
-  }
+  async getChatbotResponse(message: string): Promise<string> {
+    try {
+      const response = await fetch(`${this.API_URL}?key=${this.API_KEY}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt: {
+            text: message,
+          },
+        }),
+      });
 
-  findOne(id: number) {
-    return `This action returns a #${id} chatbot`;
-  }
+      if (!response.ok) {
+        throw new Error(`API 요청 실패: ${response.statusText}`);
+      }
 
-  update(id: number, updateChatbotDto: UpdateChatbotDto) {
-    return `This action updates a #${id} chatbot`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} chatbot`;
+      const data = await response.json();
+      return data?.candidates?.[0]?.content?.text || '응답을 가져오지 못했습니다.';
+    } catch (error) {
+      console.error('챗봇 API 호출 오류:', error);
+      return '오류가 발생했습니다. 다시 시도해주세요.';
+    }
   }
 }

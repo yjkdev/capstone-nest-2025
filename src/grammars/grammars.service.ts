@@ -1,26 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { CreateGrammarDto } from './dto/create-grammar.dto';
-import { UpdateGrammarDto } from './dto/update-grammar.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Grammar } from './entities/grammars.entity';
+import { GrammarMiddle } from './entities/grammar-middle.entity';
+import { GrammarBook } from './entities/grammar-books.entity';
+import { User } from 'src/user/entity/user.entity';
 
 @Injectable()
 export class GrammarsService {
-  create(createGrammarDto: CreateGrammarDto) {
-    return 'This action adds a new grammar';
-  }
+  constructor(
+    @InjectRepository(Grammar)
+    private grammarRepository: Repository<Grammar>,
+    @InjectRepository(Grammar)
+    private grammarMiddleRepository: Repository<GrammarMiddle>,
+    @InjectRepository(Grammar)
+    private grammarBookRepository: Repository<GrammarBook>,
+  ) {}
 
-  findAll() {
-    return `This action returns all grammars`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} grammar`;
-  }
-
-  update(id: number, updateGrammarDto: UpdateGrammarDto) {
-    return `This action updates a #${id} grammar`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} grammar`;
+  // 🔥 문법법 관련 비즈니스 로직
+  // ✅ 모든 문법 조회 로직(프론트에 넘겨줄 데이터)
+  async findAll(): Promise<Grammar[]> {
+    return this.grammarRepository.find();
   }
 }

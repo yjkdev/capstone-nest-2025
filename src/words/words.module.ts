@@ -10,5 +10,6 @@ import { WordsController } from './words.controller';
   imports: [TypeOrmModule.forFeature([Word, WordBook, WordMiddle])],
   providers: [WordsService],
   controllers: [WordsController],
+  exports: [WordsService],
 })
 export class WordsModule {}
