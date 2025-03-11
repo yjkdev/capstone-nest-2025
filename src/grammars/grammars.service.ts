@@ -17,7 +17,7 @@ export class GrammarsService {
     private grammarBookRepository: Repository<GrammarBook>,
   ) {}
 
-  // 🔥 문법법 관련 비즈니스 로직
+  // 🔥 문법 관련 비즈니스 로직
   // ✅ 모든 문법 조회 로직(프론트에 넘겨줄 데이터)
   async findAll(): Promise<Grammar[]> {
     return this.grammarRepository.find();

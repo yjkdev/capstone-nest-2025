@@ -1,15 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ChatbotService } from './chatbot.service';
-import { CreateChatbotDto } from './dto/create-chatbot.dto';
-import { UpdateChatbotDto } from './dto/update-chatbot.dto';
+import { Controller, Post, Body } from '@nestjs/common';
+import { GeminiService } from './gemini.service';
 
 @Controller('chatbot')
 export class ChatbotController {
-  constructor(private readonly chatbotService: ChatbotService) {}
+  constructor(private readonly geminiService: GeminiService) {}
 
-  @Post('ask')
-  async askChatbot(@Body('message')message:string) {
-    const response = await this.chatbotService.getChatbotResponse(message);
-    return {response};
+  @Post('text-chat')
+  async textChat(@Body('message') message: string) {
+    const response = await this.geminiService.generateResponse(message);
+    return { reply: response };
   }
 }
