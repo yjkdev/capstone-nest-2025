@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ChatbotController } from './chatbot.controller';
-import { GeminiService } from './gemini.service';
+import { ChatbotService } from './chatbot.service'
+import { SpeechToTextService } from './speech-to-text.service';
+import { TextToSpeechService } from './text-to-speech.service';
 
 @Module({
   controllers: [ChatbotController],
-  providers: [GeminiService],
-  exports: [GeminiService],
+  providers: [ChatbotService, SpeechToTextService, TextToSpeechService],
+  exports: [ChatbotService, SpeechToTextService, TextToSpeechService],
 })
 export class ChatbotModule {}
