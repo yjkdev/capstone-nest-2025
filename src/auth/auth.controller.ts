@@ -17,9 +17,10 @@ export class AuthController {
   async signIn(
     @Body('email') email: string,
     @Body('password') password: string,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ accessToken: string, refreshToken: string }> {
     const accessToken = await this.authService.signIn(email, password); // 로그인 로직 호출
-    return { accessToken }; // 액세스 토큰 반환
+    const refreshToken = await this.authService.generateRefreshToken(email, password); // 로그인시 리프레쉬 토큰 발급ㅇㅇ
+    return { accessToken, refreshToken }; // 액세스 토큰 반환
   }
 
   @Post('signup')
