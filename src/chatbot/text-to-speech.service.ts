@@ -12,11 +12,23 @@ export class TextToSpeechService {
     this.apiKey = this.configService.get<string>('GOOGLE_API_KEY') ?? ''
   }
 
+  // ✅ 텍스트 필터링 로직
+  private cleanText(text: string): string {
+    return text
+      .replace(/\n+/g, ' ')  // 줄바꿈을 공백으로 변환
+      .replace(/[*\-•]+/g, '') // 하이픈, 별표 등 제거
+      .replace(/\s+/g, ' ')  // 연속된 공백을 하나로 변환
+      .trim(); // 앞뒤 공백 제거
+  }
+
   async synthesizeSpeech(text: string, outputPath: string): Promise<void> {
+    
+    const cleanedText = this.cleanText(text);
+    
     const response = await axios.post(
       `${this.apiUrl}?key=${this.apiKey}`,
       {
-        input: { text },
+        input: { text: cleanedText },
         voice: { languageCode: 'ja-JP', ssmlGender: 'FEMALE' },
         audioConfig: { audioEncoding: 'LINEAR16' }
       },

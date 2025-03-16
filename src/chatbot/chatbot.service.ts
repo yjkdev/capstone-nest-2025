@@ -7,6 +7,7 @@ export class ChatbotService {
   private readonly apiKey: string;
   private readonly apiUrl = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash-lite:generateContent';
 
+  // 🔥 제미니 챗봇 관련
   constructor(private readonly configService: ConfigService) {
     this.apiKey = this.configService.get<string>('GEMINI_API_KEY') ?? '';
   }
