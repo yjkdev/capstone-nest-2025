@@ -23,8 +23,48 @@ export class AuthService {
     const payload = { email: user.email, sub: user.user_id };
     return this.jwtService.sign(payload, {
       secret : process.env.JWT_REFRESH_SECRET,
-      expiresIn: '7d', // 리프레시 토큰 유효기간 7일
+      expiresIn: process.env.JWT_REFRESH_EXPIRES_IN, // 리프레시 토큰 유효기간 7일
     });
+  }
+
+  //구글 엑세스 발급 로직 
+  async googleToken(user:User): Promise<string> {
+    const payload = { email: user.email, sub: user.user_id};
+    return this.jwtService.sign(payload, {
+      secret : process.env.JWT_SECRET,
+      expiresIn: process.env.JWT_EXPIRES_IN, // 엑세스 토큰 유효기간 15분
+    });
+  }
+
+  //구글 리프레쉬 발급 로직 
+  async googleRefreshToken(user:User): Promise<string> {
+    const payload = { email: user.email, sub: user.user_id};
+    return this.jwtService.sign(payload, {
+      secret : process.env.JWT_REFRESH_SECRET,
+      expiresIn: process.env.JWT_REFRESH_EXPIRES_IN, // 리프레시 토큰 유효기간 7일
+    });
+  }
+
+  //리프레쉬 토큰써서 액세스 토큰 재발급 로직
+  async refreshAccessToken(refreshToken: string): Promise<{ accessToken: string }> {
+    try {
+      const decoded = this.jwtService.verify(refreshToken, {
+        secret: process.env.JWT_REFRESH_SECRET,
+      });
+  
+      const user = await this.userRepository.findOneBy({ user_id: decoded.sub });
+      if (!user) throw new BadRequestException('User not found');
+  
+      const payload = { email: user.email, sub: user.user_id };
+      const accessToken = this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET,
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      });
+  
+      return { accessToken };
+    } catch (error) {
+      throw new BadRequestException('Invalid or expired refresh token');
+    }
   }
 
   async signUp(createUserDto: CreateUserDto): Promise<void> {

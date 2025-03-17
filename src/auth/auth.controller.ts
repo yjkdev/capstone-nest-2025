@@ -4,9 +4,6 @@ import { CreateUserDto } from '../user/dto/create-user.dto';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 
-const social_chek = 1
-
-
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService,
@@ -26,6 +23,11 @@ export class AuthController {
   @Post('signup')
   async signUp(@Body() createUserDto: CreateUserDto): Promise<void> {
     await this.authService.signUp(createUserDto); // 회원가입 로직 호출
+  }
+
+  @Post('refresh')
+  async refreshToken(@Body('refreshToken') refreshToken: string) {
+    return this.authService.refreshAccessToken(refreshToken);
   }
 
   @Get('google')
@@ -56,7 +58,6 @@ export class AuthController {
         grant_type: 'authorization_code',
       }),
     );
-    
 
     const { access_token } = tokenResponse.data;
 
@@ -72,12 +73,14 @@ export class AuthController {
 
     const userInfo = userResponse.data; // 이거에 구글에서 받은거 다 들어있음ㅇㅇ 
 
-    const savedUser = await this.authService.saveGoogleUser(userInfo);
+    const savedUser = await this.authService.saveGoogleUser(userInfo); // save머시기로 email, name, picture(프로필사진)만 뽑아내고 저장
+
+    const accessToken = await this.authService.googleToken(savedUser);
+    const refreshToken = await this.authService.googleRefreshToken(savedUser);
 
     // 사용자 정보 반환
     return {
-      user: savedUser,
-      access_token: access_token
+      accessToken,refreshToken
     };
   }
 }
