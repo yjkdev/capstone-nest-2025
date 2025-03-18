@@ -23,6 +23,9 @@ export class ChatbotSituation {
     correct_message: string; // 정답 메시지 (빈칸이 채워진 최종 정답)
 
     @Column({ type: "text" })
+    correct_kr_message: string; // 정답 메시지 뜻
+
+    @Column({ type: "text" })
     choice_1: string; // 선택지 1
 
     @Column({ type: "text" })

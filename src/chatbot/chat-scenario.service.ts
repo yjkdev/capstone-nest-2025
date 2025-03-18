@@ -1,16 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ChatbotScenario} from './entities/chatbot-scenarios.entity'
 import { ChatbotSituation } from './entities/chatbot-situations.entity';
 
 @Injectable()
 export class ChatScenarioService {
   constructor(
+    @InjectRepository(ChatbotScenario)
+    private readonly ChatbotScenarioRepo: Repository<ChatbotScenario>,
     @InjectRepository(ChatbotSituation)
     private readonly chatbotSituationRepo: Repository<ChatbotSituation>,
   ) {}
 
   // 🔥 상황별 대화 관련
+  // ✅ 모든 시나리오 조회 로직(프론트에 넘겨줄 데이터)
+  async findAll(): Promise<ChatbotScenario[]> {
+    return this.ChatbotScenarioRepo.find();
+  }
+
   // ✅ 특정 시나리오의 첫 번째 대화 단계 가져오기
   async getScenario(scenarioId: number) {
     return await this.chatbotSituationRepo.findOne({

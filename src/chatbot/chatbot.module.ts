@@ -5,10 +5,11 @@ import { ChatbotService } from './chatbot.service'
 import { SpeechToTextService } from './speech-to-text.service';
 import { TextToSpeechService } from './text-to-speech.service';
 import { ChatScenarioService } from './chat-scenario.service';
+import { ChatbotScenario } from './entities/chatbot-scenarios.entity'
 import { ChatbotSituation } from './entities/chatbot-situations.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ChatbotSituation]),],
+  imports: [TypeOrmModule.forFeature([ChatbotScenario, ChatbotSituation]),],
   controllers: [ChatbotController],
   providers: [ChatbotService, SpeechToTextService, TextToSpeechService, ChatScenarioService,],
   exports: [ChatbotService, SpeechToTextService, TextToSpeechService, ChatScenarioService,],

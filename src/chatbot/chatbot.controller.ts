@@ -6,6 +6,7 @@ import { TextToSpeechService } from './text-to-speech.service';
 import { ChatScenarioService } from './chat-scenario.service';
 import { Response } from 'express';
 import { memoryStorage } from 'multer';
+import { ChatbotScenario} from './entities/chatbot-scenarios.entity'
 
 @Controller('chatbot')
 export class ChatbotController {
@@ -54,6 +55,12 @@ export class ChatbotController {
   }
 
   // 🔥 상황별 대화 관련
+  // ✅ 모든 시나리오 조회 API
+  @Get('scenarios')
+  async getAllScenario(): Promise<ChatbotScenario[]> {
+    return this.chatScenarioService.findAll();
+  }
+
   // ✅ 특정 시나리오의 첫 번째 대화 단계 가져오기
   @Get('scenario/:scenarioId')
   async getScenario(@Param('scenarioId') scenarioId: number) {
