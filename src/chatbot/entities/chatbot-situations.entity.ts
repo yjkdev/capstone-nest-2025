@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, JoinColumn, Column, ManyToOne } from "typeorm";
 import { ChatbotScenario } from "./chatbot-scenarios.entity";
 
 @Entity("chatbot_situations")
@@ -10,6 +10,7 @@ export class ChatbotSituation {
     scenario_id: number;
 
     @ManyToOne(() => ChatbotScenario, (scenario) => scenario.situations, { onDelete: "CASCADE" })
+    @JoinColumn({ name: "scenario_id" })
     scenario: ChatbotScenario;
 
     @Column({ type: "text" })
@@ -32,6 +33,19 @@ export class ChatbotSituation {
 
     @Column({ type: "text" })
     choice_4: string; // 선택지 4
+
+    // ✅ 추가된 컬럼 (정답 및 오답 설명)
+    @Column({ type: "text", nullable: true })
+    correct_explanation: string; // 정답 설명
+
+    @Column({ type: "text", nullable: true })
+    wrong_explanation_1: string; // 첫 번째 오답 설명
+
+    @Column({ type: "text", nullable: true })
+    wrong_explanation_2: string; // 두 번째 오답 설명
+
+    @Column({ type: "text", nullable: true })
+    wrong_explanation_3: string; // 세 번째 오답 설명
 
     @Column({ type: "boolean", default: false })
     is_question: boolean; // 빈칸 문제 여부
