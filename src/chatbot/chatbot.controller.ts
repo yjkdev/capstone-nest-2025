@@ -3,10 +3,9 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ChatbotService } from './chatbot.service';
 import { SpeechToTextService } from './speech-to-text.service';
 import { TextToSpeechService } from './text-to-speech.service';
-import { ChatScenarioService } from './chat-scenario.service';
+import { ChatQnAService  } from './chatbot-qna.service';
 import { Response } from 'express';
 import { memoryStorage } from 'multer';
-import { ChatbotScenario} from './entities/chatbot-scenarios.entity'
 
 @Controller('chatbot')
 export class ChatbotController {
@@ -14,7 +13,7 @@ export class ChatbotController {
     private readonly chatbotService: ChatbotService,
     private readonly speechToTextService: SpeechToTextService,
     private readonly textToSpeechService: TextToSpeechService,
-    private readonly chatScenarioService: ChatScenarioService
+    private readonly chatQnAService: ChatQnAService 
   ) {}
 
   // 🔥 제미니 챗봇 관련
@@ -55,33 +54,25 @@ export class ChatbotController {
   }
 
   // 🔥 상황별 대화 관련
-  // ✅ 모든 시나리오 조회 API
-  @Get('scenarios')
-  async getAllScenario(): Promise<ChatbotScenario[]> {
-    return this.chatScenarioService.findAll();
+  // ✅ 모든 카테고리 + 해당 카테고리에 속한 상황들 반환
+  @Get('categories-with-situations')
+  async getCategoriesWithSituations() {
+    return await this.chatQnAService.getCategoriesWithSituations();
   }
 
-  // ✅ 특정 시나리오의 첫 번째 대화 단계 가져오기
-  @Get('scenario/:scenarioId')
-  async getScenario(@Param('scenarioId') scenarioId: number) {
-    return await this.chatScenarioService.getScenario(scenarioId);
-  }
-
-  // ✅ 특정 대화 단계 가져오기
-  @Get('step/:orderIndex')
-  async getStep(
-    @Param('orderIndex') orderIndex: number, 
-    @Body('scenarioId') scenarioId: number
-  ) {
-    return await this.chatScenarioService.getStep(scenarioId, orderIndex);
+  // ✅ 특정 상황의 모든 질문 가져오기
+  @Get('questions/:situationId')
+  async getQuestions(@Param('situationId') situationId: number) {
+    return await this.chatQnAService.getQuestionsBySituation(situationId);
   }
 
   // ✅ 유저 입력값 검증 및 다음 단계 진행
-  @Post('check-answer/:situationId')
+  @Post('check-answer/:situationId/:orderIndex')
   async checkAnswer(
     @Param('situationId') situationId: number, 
+    @Param('orderIndex') orderIndex: number,
     @Body('selectedChoice') selectedChoice: string
   ) {
-    return await this.chatScenarioService.checkAnswer(situationId, selectedChoice);
+    return await this.chatQnAService.checkAnswer(situationId, orderIndex, selectedChoice);
   }
 }
