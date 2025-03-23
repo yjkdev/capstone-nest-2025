@@ -5,7 +5,7 @@ import { WordBook } from './word-books.entity';
 @Entity('word_middle')
 export class WordMiddle {
   @PrimaryGeneratedColumn()
-  id: number;
+  word_middle_id: number;
 
   @ManyToOne(() => Word, (word) => word.word_middle, { onDelete: 'CASCADE' })
   @JoinColumn({ name: "word_id" })

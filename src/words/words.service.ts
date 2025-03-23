@@ -69,6 +69,19 @@ export class WordsService {
       throw new Error('단어장 또는 단어를 찾을 수 없습니다.');
     }
 
+    // 이미 추가된 단어인지 확인
+    const alreadyExists = await this.wordMiddleRepository.findOne({
+      where: {
+        wordbook: { wordbook_id: wordbookId },
+        word: { word_id: wordId },
+      },
+    });
+
+    if (alreadyExists) {
+      throw new Error('이미 이 단어장에 추가된 단어입니다.');
+    }
+    
+    // 중복이 아니라면 추가 진행
     // 단어와 단어장을 연결하는 중간 테이블(WordMiddle) 객체 생성
     const wordMiddle = this.wordMiddleRepository.create({
       wordbook: wordBook,
