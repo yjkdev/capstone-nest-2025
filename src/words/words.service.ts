@@ -15,6 +15,8 @@ export class WordsService {
     private wordMiddleRepository:Repository<WordMiddle>,
     @InjectRepository(WordBook)
     private wordBookRepository: Repository<WordBook>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
   ) {}
 
   // 🔥 단어 관련 비즈니스 로직
@@ -34,8 +36,13 @@ export class WordsService {
 
   // 🔥 단어장 관련 비즈니스 로직
   // ✅ 단어장 생성 로직
-  async createWordBook(user: User, wordbook_title: string): Promise<WordBook> {
+  async createWordBook(userId: number, wordbook_title: string): Promise<WordBook> {
     // ✅ 1. 같은 이름의 단어장이 있는지 검사
+    const user = await this.userRepository.findOne({ where: { user_id: userId } });
+    if (!user) {
+      throw new Error('사용자를 찾을 수 없습니다.');
+    }
+  
     const existingBook = await this.wordBookRepository.findOne({
       where: { user: { user_id: user.user_id }, wordbook_title },
     });
