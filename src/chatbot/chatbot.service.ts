@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { CreateChatbotDto } from './dto/create-chatbot.dto';
-import { UpdateChatbotDto } from './dto/update-chatbot.dto';
+import axios from 'axios';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ChatbotService {
-  create(createChatbotDto: CreateChatbotDto) {
-    return 'This action adds a new chatbot';
+  private readonly apiKey: string;
+  private readonly apiUrl = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash-lite:generateContent';
+
+  // 🔥 제미니 챗봇 관련
+  constructor(private readonly configService: ConfigService) {
+    this.apiKey = this.configService.get<string>('GEMINI_API_KEY') ?? '';
   }
 
-  findAll() {
-    return `This action returns all chatbot`;
-  }
+  async generateResponse(prompt: string): Promise<string> {
+    try {
+      const response = await axios.post(
+        `${this.apiUrl}?key=${this.apiKey}`,
+        { contents: [{ parts: [{ text: prompt }] }] },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
 
-  findOne(id: number) {
-    return `This action returns a #${id} chatbot`;
-  }
-
-  update(id: number, updateChatbotDto: UpdateChatbotDto) {
-    return `This action updates a #${id} chatbot`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} chatbot`;
+      return response.data.candidates?.[0]?.content?.parts?.[0]?.text || '응답을 생성할 수 없습니다.';
+    } catch (error) {
+      console.error('Gemini API 요청 오류:', error.response?.data || error.message);
+      throw new Error('Google Gemini API 호출 실패');
+    }
   }
 }

@@ -18,8 +18,17 @@ export class Grammar {
   @Column({ type: 'varchar', length: 10, nullable: true })
   grammar_level: string;
 
-  @Column({ type: 'text', nullable: true })
-  grammar_card: string;
+  @Column({type: 'varchar', length: 100})
+  grammar_example: string;
+
+  @Column({type: 'varchar', length: 100})
+  grammar_e_meaning: string;
+
+  @Column({ type: 'simple-array', nullable: true })
+  grammar_s_card: string[];
+
+  @Column({ type: 'simple-array', nullable: true })
+  grammar_e_card: string[];
 
   @Column({ type: 'simple-array', nullable: true })
   grammar_quiz: string[];

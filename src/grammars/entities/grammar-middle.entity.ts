@@ -5,7 +5,7 @@ import { GrammarBook } from './grammar-books.entity';
 @Entity('grammar_middle')
 export class GrammarMiddle {
   @PrimaryGeneratedColumn()
-  id: number;
+  grammar_middle_id: number;
 
   @ManyToOne(() => Grammar, (grammar) => grammar.grammar_middle, { onDelete: 'CASCADE' })
   grammar: Grammar;
