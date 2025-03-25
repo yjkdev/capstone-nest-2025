@@ -21,9 +21,9 @@ export class WordsController {
   @Post('/books')
   async createWordBook(@Request() req, @Body() body: { wordbook_title: string }) {
     try {
-      return await this.wordsService.createWordBook(req.user, body.wordbook_title);
+      return await this.wordsService.createWordBook(req.user.user_id, body.wordbook_title);
     } catch (error) {
-      throw new BadRequestException(error.message); // 🚨 400 에러 반환
+      throw new BadRequestException(error.message);
     }
   }
 
