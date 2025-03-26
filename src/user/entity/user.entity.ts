@@ -38,4 +38,7 @@ export class User {
 
   @OneToMany(() => ChatLog, (chatLog) => chatLog.user, { cascade: true, onDelete: 'CASCADE' })
   chat_logs: ChatLog[];
+
+  @Column()
+  uuid: string;
 }

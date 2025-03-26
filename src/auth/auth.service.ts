@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from '../user/entity/user.entity';
 import { CreateUserDto } from '../../src/user/dto/create-user.dto';
 import { JwtService } from '@nestjs/jwt';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AuthService {
@@ -75,8 +76,17 @@ export class AuthService {
       throw new BadRequestException('Email already exists');
     }
 
+    const uuid = uuidv4();
+    
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = this.userRepository.create({ email, password: hashedPassword, social_chek,name });
+    const user = this.userRepository.create({ 
+      email, 
+      password: hashedPassword, 
+      social_chek,
+      name,
+      uuid: uuid
+     });
     await this.userRepository.save(user);
   }
 
