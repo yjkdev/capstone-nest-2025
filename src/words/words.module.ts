@@ -5,9 +5,13 @@ import { WordBook } from './entities/word-books.entity';
 import { WordMiddle } from './entities/word-middle.entity';
 import { WordsService } from './words.service';
 import { WordsController } from './words.controller';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Word, WordBook, WordMiddle])],
+  imports: [
+    TypeOrmModule.forFeature([Word, WordBook, WordMiddle]),
+    UserModule,
+  ],
   providers: [WordsService],
   controllers: [WordsController],
   exports: [WordsService],

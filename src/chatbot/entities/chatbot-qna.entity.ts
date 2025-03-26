@@ -23,6 +23,9 @@ export class ChatbotQna {
   kr_answer: string; // 전체 문장 (한국어 정답)
 
   @Column({ type: 'varchar', length: 255, nullable: false })
+  jp_answer: string; // 전체 문장 (일본어 정답)
+
+  @Column({ type: 'varchar', length: 255, nullable: false })
   blank_answer: string; // 빈칸 포함된 문제 문장
 
   @Column({ type: 'json', nullable: false })
