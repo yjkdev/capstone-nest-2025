@@ -79,7 +79,6 @@ export class AuthService {
     const user = this.userRepository.create({ 
       email, 
       password: hashedPassword, 
-      social_chek,
       name,
      });
     await this.userRepository.save(user);
