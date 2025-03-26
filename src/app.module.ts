@@ -34,6 +34,7 @@ import { ChatbotModule } from './chatbot/chatbot.module';
     WordsModule,
     GrammarsModule,
     ChatbotModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

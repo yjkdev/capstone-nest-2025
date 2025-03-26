@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsEmail } from 'class-validator';
+import { StartupSnapshot } from 'v8';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -7,4 +8,8 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   password: string;
+
+  social_chek: number;
+
+  name: string;
 }
