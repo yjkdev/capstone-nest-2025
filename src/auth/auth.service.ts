@@ -68,7 +68,7 @@ export class AuthService {
   }
 
   async signUp(createUserDto: CreateUserDto): Promise<void> {
-    const { email, password, social_chek,name } = createUserDto;
+    const { email, password, name } = createUserDto;
 
     const existingUser = await this.userRepository.findOneBy({ email });
     if (existingUser) {
