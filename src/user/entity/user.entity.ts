@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BeforeInsert } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 import { WordBook } from '../../words/entities/word-books.entity';
 import { GrammarBook } from '../../grammars/entities/grammar-books.entity';
 import { QuizGame } from '../../quiz-game/entities/quiz-game.entity';
@@ -9,20 +10,25 @@ export class User {
   @PrimaryGeneratedColumn()
   user_id: number;
 
+  @Column({ type: 'varchar', length: 36, unique: true })
+  uuid: string;
+
+  @BeforeInsert()
+  generateUUID() {
+    this.uuid = uuidv4();
+  }
+
   @Column({ type: 'varchar', length: 30 })
   name: string;
 
   @Column({ type: 'varchar', length: 100, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   password: string;
 
   @Column({ type: 'text', nullable: true })
   profile_image: string;
-
-  @Column({ type: 'int', nullable: true })
-  social_check: number;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
