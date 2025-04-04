@@ -28,6 +28,10 @@
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+I am creating a website to learn Japanese as my 25th graduation project.
+
+## PR details
+https://github.com/2024Capstone-6/project_capstone-nest-deployment-repo/pulls?q=is%3Apr+is%3Aclosed
 
 ## Project setup
 
